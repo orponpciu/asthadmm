@@ -1,180 +1,193 @@
-// --- 1. MODERN MOBILE MENU TOGGLE LOGIC ---
-const mobileMenuBtn = document.getElementById('mobile-menu');
-const navWrapper = document.getElementById('nav-wrapper');
+// --- MODERN MOBILE MENU TOGGLE LOGIC ---
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuBtn = document.getElementById('mobile-menu');
+    const navWrapper = document.getElementById('nav-wrapper');
 
-mobileMenuBtn.addEventListener('click', () => {
-    mobileMenuBtn.classList.toggle('active');
-    navWrapper.classList.toggle('active');
+    if (mobileMenuBtn && navWrapper) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            navWrapper.classList.toggle('active');
+        });
+    }
 });
 
 // --- 2. TECH NETWORK PARTICLE BACKGROUND LOGIC (HERO SECTION) ---
 const canvas = document.getElementById('canvas-bg');
-const ctx = canvas.getContext('2d');
-let particles = [];
+if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
 
-function resizeHero() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-window.addEventListener('resize', resizeHero);
-resizeHero();
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
+    function resizeHero() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
-    
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
-    }
-    
-    draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
 
-function initHeroParticles() {
-    particles = [];
-    const particleCount = window.innerWidth < 768 ? 50 : 90;
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-}
+    window.addEventListener('resize', resizeHero);
+    resizeHero();
 
-function animateHero() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        for (let j = i; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < 110) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - distance/110) * 0.25})`;
-                ctx.lineWidth = 0.8;
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
-            }
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2;
+            this.speedX = Math.random() * 0.5 - 0.25;
+            this.speedY = Math.random() * 0.5 - 0.25;
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+        
+        draw() {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
     }
-    requestAnimationFrame(animateHero);
-}
 
-initHeroParticles();
-animateHero();
+    function initHeroParticles() {
+        particles = [];
+        const particleCount = window.innerWidth < 768 ? 50 : 90;
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function animateHero() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+            for (let j = i; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 110) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - distance/110) * 0.25})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animateHero);
+    }
+
+    initHeroParticles();
+    animateHero();
+}
 
 // --- 3. NEW AUDIT SECTION DATA-STREAM BACKGROUND ---
 const auditCanvas = document.getElementById('audit-canvas');
-const auditCtx = auditCanvas.getContext('2d');
-let dataStreams = [];
+if (auditCanvas) {
+    const auditCtx = auditCanvas.getContext('2d');
+    let dataStreams = [];
 
-function resizeAudit() {
-    const auditSection = document.querySelector('.audit-section');
-    if (auditSection) {
-        auditCanvas.width = window.innerWidth;
-        auditCanvas.height = auditSection.offsetHeight;
+    function resizeAudit() {
+        const auditSection = document.querySelector('.audit-section');
+        if (auditSection) {
+            auditCanvas.width = window.innerWidth;
+            auditCanvas.height = auditSection.offsetHeight;
+        }
     }
-}
 
-window.addEventListener('resize', resizeAudit);
-setTimeout(resizeAudit, 100); 
+    window.addEventListener('resize', resizeAudit);
+    setTimeout(resizeAudit, 100); 
 
-class DataStream {
-    constructor() {
-        this.reset();
-        this.x = Math.random() * auditCanvas.width;
-    }
-    reset() {
-        this.x = -100;
-        this.y = Math.random() * auditCanvas.height;
-        this.length = Math.random() * 150 + 50;
-        this.speed = Math.random() * 2 + 1;
-        this.opacity = Math.random() * 0.5 + 0.1;
-        this.color = Math.random() > 0.5 ? '#9E208C' : '#00d2ff';
-    }
-    update() {
-        this.x += this.speed;
-        if (this.x > auditCanvas.width + this.length) {
+    class DataStream {
+        constructor() {
             this.reset();
+            this.x = Math.random() * auditCanvas.width;
+        }
+        reset() {
+            this.x = -100;
+            this.y = Math.random() * auditCanvas.height;
+            this.length = Math.random() * 150 + 50;
+            this.speed = Math.random() * 2 + 1;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.color = Math.random() > 0.5 ? '#9E208C' : '#00d2ff';
+        }
+        update() {
+            this.x += this.speed;
+            if (this.x > auditCanvas.width + this.length) {
+                this.reset();
+            }
+        }
+        draw() {
+            auditCtx.beginPath();
+            auditCtx.moveTo(this.x, this.y);
+            auditCtx.lineTo(this.x + this.length, this.y);
+            
+            let gradient = auditCtx.createLinearGradient(this.x, this.y, this.x + this.length, this.y);
+            gradient.addColorStop(0, "rgba(255,255,255,0)");
+            gradient.addColorStop(1, this.color);
+            
+            auditCtx.strokeStyle = gradient;
+            auditCtx.lineWidth = 2;
+            auditCtx.globalAlpha = this.opacity;
+            auditCtx.stroke();
+            auditCtx.globalAlpha = 1;
         }
     }
-    draw() {
-        auditCtx.beginPath();
-        auditCtx.moveTo(this.x, this.y);
-        auditCtx.lineTo(this.x + this.length, this.y);
-        
-        let gradient = auditCtx.createLinearGradient(this.x, this.y, this.x + this.length, this.y);
-        gradient.addColorStop(0, "rgba(255,255,255,0)");
-        gradient.addColorStop(1, this.color);
-        
-        auditCtx.strokeStyle = gradient;
-        auditCtx.lineWidth = 2;
-        auditCtx.globalAlpha = this.opacity;
-        auditCtx.stroke();
-        auditCtx.globalAlpha = 1;
+
+    function initAuditStreams() {
+        dataStreams = [];
+        const streamCount = window.innerWidth < 768 ? 20 : 40;
+        for (let i = 0; i < streamCount; i++) {
+            dataStreams.push(new DataStream());
+        }
     }
+
+    function animateAudit() {
+        auditCtx.clearRect(0, 0, auditCanvas.width, auditCanvas.height);
+        for (let i = 0; i < dataStreams.length; i++) {
+            dataStreams[i].update();
+            dataStreams[i].draw();
+        }
+        requestAnimationFrame(animateAudit);
+    }
+
+    setTimeout(() => {
+        initAuditStreams();
+        animateAudit();
+    }, 150);
 }
 
-function initAuditStreams() {
-    dataStreams = [];
-    const streamCount = window.innerWidth < 768 ? 20 : 40;
-    for (let i = 0; i < streamCount; i++) {
-        dataStreams.push(new DataStream());
-    }
-}
+// --- 4. NUMBER COUNTER ANIMATION LOGIC (UPDATED FOR DYNAMIC CLASSES) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.counter-val');
 
-function animateAudit() {
-    auditCtx.clearRect(0, 0, auditCanvas.width, auditCanvas.height);
-    for (let i = 0; i < dataStreams.length; i++) {
-        dataStreams[i].update();
-        dataStreams[i].draw();
-    }
-    requestAnimationFrame(animateAudit);
-}
+    counters.forEach(counter => {
+        const endValue = parseInt(counter.getAttribute('data-target')) || 0;
+        const duration = 2000;
+        let startTimestamp = null;
 
-setTimeout(() => {
-    initAuditStreams();
-    animateAudit();
-}, 150);
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            
+            counter.innerHTML = Math.floor(progress * endValue);
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                counter.innerHTML = endValue; 
+            }
+        };
 
-// --- 4. NUMBER COUNTER ANIMATION LOGIC ---
-function animateValue(id, start, end, duration) {
-    let obj = document.getElementById(id);
-    if (!obj) return;
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        obj.innerHTML = Math.floor(progress * (end - start) + start);
-        if (progress < 1) {
+        setTimeout(() => {
             window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
-}
-
-setTimeout(() => {
-    animateValue("exp", 0, 15, 2000);
-    animateValue("experts", 0, 22, 2000);
-    animateValue("projects", 0, 4200, 2000);
-    animateValue("retention", 0, 95, 2000);
-}, 500);
+        }, 500);
+    });
+});
 
 // --- 5. BRAND SLIDER LOGIC (SEAMLESS INFINITE LOOP) ---
 const slider = document.getElementById('brand-slider');

@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+// Add this new import for TextColumn
+use Filament\Tables\Columns\TextColumn; 
+
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class UsersTable
@@ -14,21 +16,24 @@ class UsersTable
     {
         return $table
             ->columns([
+                // Display the User's Name
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
+                    ->searchable()
                     ->sortable(),
+
+                // Display the User's Email
+                TextColumn::make('email')
+                    ->searchable()
+                    ->sortable(),
+
+                // Display the User's Role
                 TextColumn::make('role')
-                    ->badge(),
-                TextColumn::make('created_at')
-                    ->dateTime()
+                    ->badge()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                    ->searchable(),
+
+                // Optional: Display when the user was created
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

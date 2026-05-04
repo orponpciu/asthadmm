@@ -20,8 +20,8 @@
     @include('frontend.home.insights')
     @include('frontend.home.contact')
     @include('frontend.home.footer')
-
     
+  
 <script src="{{ asset('assets/frontend/js/script.js') }}"></script>
 </body>
 </html>>
