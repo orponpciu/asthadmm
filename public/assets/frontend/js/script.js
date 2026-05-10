@@ -1082,3 +1082,80 @@ function animateFooter() {
 
 initFooterNodes();
 animateFooter();
+
+document.addEventListener("DOMContentLoaded", function() {
+    
+    // 1. Initialize Particles in the Hero Section
+    // Requires particles.js library to be loaded in the HTML
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 50, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#e3003a" }, 
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true },
+                "size": { "value": 4, "random": true },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#e3003a",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": true,
+                    "out_mode": "out"
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": { "enable": true, "mode": "grab" },
+                    "onclick": { "enable": true, "mode": "push" },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": { "distance": 200, "line_linked": { "opacity": 0.6 } },
+                    "push": { "particles_nb": 3 }
+                }
+            },
+            "retina_detect": true
+        });
+    }
+
+    
+    // 2. FAQ Accordion Logic
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            const icon = this.querySelector('span');
+
+            if (content.style.maxHeight) {
+                // Close current
+                content.style.maxHeight = null;
+                icon.textContent = '+';
+                this.style.color = 'var(--brand-black)';
+            } else {
+                // Close all other open accordions
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    item.style.maxHeight = null;
+                });
+                document.querySelectorAll('.accordion-header').forEach(hdr => {
+                    hdr.style.color = 'var(--brand-black)';
+                    hdr.querySelector('span').textContent = '+';
+                });
+
+                // Open clicked accordion
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.textContent = '-';
+                this.style.color = 'var(--brand-red)'; // Highlight open question
+            }
+        });
+    });
+
+});

@@ -24,4 +24,4 @@
   
 <script src="{{ asset('assets/frontend/js/script.js') }}"></script>
 </body>
-</html>>
+</html>

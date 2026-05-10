@@ -50,21 +50,21 @@
                     <span class="c-icon">✉</span>
                     <div>
                         <p class="label">EMAIL ADDRESS</p>
-                        <p class="value">info@enhmedia.com</p>
+                        <p class="value">info@asthadmm.com</p>
                     </div>
                 </div>
                 <div class="contact-item">
                     <span class="c-icon">📞</span>
                     <div>
                         <p class="label">PHONE NUMBER</p>
-                        <p class="value">+971 4 239 0828</p>
+                        <p class="value">+971 50 325 9908</p>
                     </div>
                 </div>
                 <div class="contact-item">
                     <span class="c-icon">📍</span>
                     <div>
                         <p class="label">LOCATION</p>
-                        <p class="value">#207, Arcade Building, Al Garhoud Dubai, UAE</p>
+                        <p class="value">12 41st St - Naif - 273553 55.313360 - Deira - Dubai - United Arab Emirates</p>
                     </div>
                 </div>
             </div>
@@ -76,6 +76,6 @@
     </div>
 
     <div class="copyright-bar">
-        <p>© COPYRIGHT 2026 | ENH MARKETING LLC</p>
+        <p>© COPYRIGHT 2026 | ASTHA DMM LLC</p>
     </div>
 </footer>
