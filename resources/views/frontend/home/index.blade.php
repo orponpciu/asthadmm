@@ -12,7 +12,7 @@
     @include('frontend.home.brands')
     @include('frontend.home.services')
     @include('frontend.home.audit')
-    @include('frontend.home.portfolio')
+    @include('frontend.home.work')
     @include('frontend.home.digitalworld')
     @include('frontend.home.partner')
     @include('frontend.home.faq')

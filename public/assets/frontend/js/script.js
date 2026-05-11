@@ -288,13 +288,121 @@ slider.addEventListener('touchmove', (e) => {
     }
 });
 
-// =========================================
-// OUR WORK SECTION ANIMATIONS
-// =========================================
-
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. DATA INITIALIZATION
+    const portfolioRawData = document.getElementById('portfolio-data');
+    if (!portfolioRawData) return;
     
-    // --- Interactive 3D Tilt Effect for Mockup ---
+    const projects = JSON.parse(portfolioRawData.textContent);
+    let currentIndex = 0;
+
+    // --- Select All Dynamic Elements ---
+    const elTitle = document.getElementById('dynamic-title');
+    const elDesc = document.getElementById('dynamic-desc');
+    const elLink = document.getElementById('dynamic-link');
+    const elTagline = document.getElementById('dynamic-tagline');
+    const elImg = document.getElementById('dynamic-img');
+    const elSearchText = document.getElementById('dynamic-search-text');
+    const statsContainer = document.getElementById('stats-container');
+
+    // 2. CONTENT UPDATE FUNCTION
+    function updateContent(index) {
+        const data = projects[index];
+        if (!data) return;
+
+        // Update Text Content
+        elTitle.innerHTML = data.title;
+        elDesc.innerText = data.description;
+        elLink.setAttribute('href', data.url);
+        elTagline.innerText = data.tagline;
+        elImg.setAttribute('src', data.hero_image);
+        elSearchText.innerText = data.title.replace(/<[^>]*>?/gm, ''); // Strip HTML tags for search bar
+
+        // Update Stats (Rebuild the HTML grid)
+        statsContainer.innerHTML = '';
+        if (data.stats && Array.isArray(data.stats)) {
+            data.stats.forEach(stat => {
+                // Clean the number (e.g. "12+" becomes "12") for the counter
+                const targetNum = stat.number.replace(/[^0-9]/g, '');
+                const symbol = stat.number.replace(/[0-9]/g, '');
+
+                statsContainer.innerHTML += `
+                    <div class="cs-stat-box">
+                        <div class="stat-number">
+                            <span class="counter" data-target="${targetNum}">0</span>
+                            <span class="symbol">${symbol}</span>
+                        </div>
+                        <p>${stat.label}</p>
+                    </div>
+                `;
+            });
+        }
+        
+        // Re-trigger the counter animation for the new stats
+        animateCounters();
+    }
+
+    // Initial load for the first item's stats
+    updateContent(0);
+
+    // --- 3. UPDATED SLIDE ANIMATION ---
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const leftSlideWrapper = document.getElementById('left-slide-wrapper');
+    const rightSlideWrapper = document.querySelector('.portfolio-showcase');
+    let isAnimating = false;
+
+    function slideEntireSection(direction) {
+        if (isAnimating || projects.length <= 1) return; 
+        isAnimating = true;
+
+        const slideOutX = direction === 'next' ? '-50vw' : '50vw';
+        const slideInX = direction === 'next' ? '50vw' : '-50vw';
+
+        // Animate Out
+        [leftSlideWrapper, rightSlideWrapper].forEach(el => {
+            if(el) {
+                el.style.transform = `translateX(${slideOutX}) scale(0.95)`;
+                el.style.opacity = '0';
+            }
+        });
+
+        setTimeout(() => {
+            // Update the index
+            if (direction === 'next') {
+                currentIndex = (currentIndex + 1) % projects.length;
+            } else {
+                currentIndex = (currentIndex - 1 + projects.length) % projects.length;
+            }
+
+            // --- INJECT NEW CONTENT WHILE INVISIBLE ---
+            updateContent(currentIndex);
+
+            [leftSlideWrapper, rightSlideWrapper].forEach(el => {
+                if(el) {
+                    el.style.transition = 'none';
+                    el.style.transform = `translateX(${slideInX}) scale(0.95)`;
+                }
+            });
+
+            void leftSlideWrapper.offsetWidth; // Force Reflow
+
+            // Animate In
+            [leftSlideWrapper, rightSlideWrapper].forEach(el => {
+                if(el) {
+                    el.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-out';
+                    el.style.transform = 'translateX(0) scale(1)';
+                    el.style.opacity = '1';
+                }
+            });
+
+            setTimeout(() => { isAnimating = false; }, 600);
+        }, 500); 
+    }
+
+    // --- 4. REMAINDER OF EXISTING CODE (Tilt & Counter Logic) ---
+
+    // [Interactive 3D Tilt Effect - KEEP AS IS]
     const tiltMockup = document.getElementById('tilt-mockup');
     const showcaseContainer = document.querySelector('.portfolio-showcase');
     let isTicking = false;
@@ -304,150 +412,42 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isTicking) {
                 requestAnimationFrame(() => {
                     const rect = showcaseContainer.getBoundingClientRect();
-                    const x = e.clientX - rect.left; 
-                    const y = e.clientY - rect.top;  
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -15; 
-                    const rotateY = ((x - centerX) / centerX) * 15;
-
+                    const rotateX = ((e.clientY - rect.top - rect.height / 2) / (rect.height / 2)) * -15; 
+                    const rotateY = ((e.clientX - rect.left - rect.width / 2) / (rect.width / 2)) * 15;
                     tiltMockup.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
                     isTicking = false;
                 });
                 isTicking = true;
             }
         });
-
         showcaseContainer.addEventListener('mouseleave', () => {
             tiltMockup.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg)`;
-            tiltMockup.style.transition = `transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)`; 
-            
-            setTimeout(() => {
-                tiltMockup.style.transition = `transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94)`; 
-            }, 600);
         });
     }
 
-    // --- Scroll-Triggered Number Counter ---
-    const counters = document.querySelectorAll('.case-study-stats .counter');
-    const statsContainer = document.getElementById('stats-container');
-    let hasCounted = false;
-
-    const easeOutQuart = t => 1 - (--t) * t * t * t;
-
-    const animateCounters = () => {
+    // [Scroll-Triggered Number Counter - Re-usable]
+    function animateCounters() {
+        const counters = document.querySelectorAll('.case-study-stats .counter');
         counters.forEach(counter => {
             const target = +counter.getAttribute('data-target');
-            const duration = 2500; 
+            const duration = 2000;
             let startTime = null;
-
             const step = (currentTime) => {
                 if (!startTime) startTime = currentTime;
                 const progress = Math.min((currentTime - startTime) / duration, 1);
-                
-                const easedProgress = easeOutQuart(progress);
-                const currentVal = Math.floor(easedProgress * target);
-                
+                const currentVal = Math.floor(progress * target);
                 counter.innerText = currentVal >= 1000 ? currentVal.toLocaleString() : currentVal;
-
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                } else {
-                    counter.innerText = target >= 1000 ? target.toLocaleString() : target;
-                }
+                if (progress < 1) requestAnimationFrame(step);
+                else counter.innerText = target >= 1000 ? target.toLocaleString() : target;
             };
             requestAnimationFrame(step);
         });
-    };
-
-    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
-
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !hasCounted) {
-                animateCounters();
-                hasCounted = true; 
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    if (statsContainer) statsObserver.observe(statsContainer);
-    
-    // --- FULL SECTION SLIDE ANIMATION ---
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    const leftSlideWrapper = document.getElementById('left-slide-wrapper');
-    const rightSlideWrapper = document.querySelector('.portfolio-showcase');
-    const portfolioSection = document.getElementById('portfolio');
-    
-    let isAnimating = false;
-
-    function slideEntireSection(direction) {
-        if (isAnimating) return; 
-        isAnimating = true;
-
-        const slideOutX = direction === 'next' ? '-50vw' : '50vw';
-        const slideInX = direction === 'next' ? '50vw' : '-50vw';
-
-        if(leftSlideWrapper) {
-            leftSlideWrapper.style.transform = `translateX(${slideOutX}) scale(0.95)`;
-            leftSlideWrapper.style.opacity = '0';
-        }
-        if(rightSlideWrapper) {
-            rightSlideWrapper.style.transform = `translateX(${slideOutX}) scale(0.95)`;
-            rightSlideWrapper.style.opacity = '0';
-        }
-
-        setTimeout(() => {
-            if(leftSlideWrapper) leftSlideWrapper.style.transition = 'none';
-            if(rightSlideWrapper) rightSlideWrapper.style.transition = 'none';
-            
-            if(leftSlideWrapper) leftSlideWrapper.style.transform = `translateX(${slideInX}) scale(0.95)`;
-            if(rightSlideWrapper) rightSlideWrapper.style.transform = `translateX(${slideInX}) scale(0.95)`;
-            
-            if(leftSlideWrapper) void leftSlideWrapper.offsetWidth; 
-            
-            if(leftSlideWrapper) {
-                leftSlideWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-out';
-                leftSlideWrapper.style.transform = 'translateX(0) scale(1)';
-                leftSlideWrapper.style.opacity = '1';
-            }
-            
-            if(rightSlideWrapper) {
-                rightSlideWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease-out';
-                rightSlideWrapper.style.transform = 'translateX(0) scale(1)';
-                rightSlideWrapper.style.opacity = '1';
-            }
-
-            setTimeout(() => { isAnimating = false; }, 600);
-
-        }, 500); 
     }
 
+    // Event Listeners for Buttons
     if (prevBtn && nextBtn) {
         prevBtn.addEventListener('click', () => slideEntireSection('prev'));
         nextBtn.addEventListener('click', () => slideEntireSection('next'));
-    }
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    if (portfolioSection) {
-        portfolioSection.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        portfolioSection.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            const swipeThreshold = 50; 
-            
-            if (touchEndX < touchStartX - swipeThreshold) slideEntireSection('next');
-            if (touchEndX > touchStartX + swipeThreshold) slideEntireSection('prev');
-        }, {passive: true});
     }
 });
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ServiceSection;
 use App\Models\AuditSection;
-use App\Models\AuditContact; // 1. Import the model for saving leads
+use App\Models\AuditContact;
+use App\Models\WorkPortfolio; // Import the WorkPortfolio model
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,12 +15,16 @@ class HomeController extends Controller
         // Fetch data for the frontend sections
         $services = ServiceSection::all(); 
         $auditData = AuditSection::first();
+        
+        // Fetch portfolios for the dynamic slider on the homepage
+        $portfolios = WorkPortfolio::latest()->get();
 
-        return view('frontend.home.index', compact('services', 'auditData'));
+        // Include 'portfolios' in the compact function
+        return view('frontend.home.index', compact('services', 'auditData', 'portfolios'));
     }
 
     /**
-     * 2. Handle the Audit Request Form Submission
+     * Handle the Audit Request Form Submission
      */
     public function submitAudit(Request $request)
     {
