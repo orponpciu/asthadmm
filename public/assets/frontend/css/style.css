@@ -2606,9 +2606,377 @@ nav {
 }
 
 
+   
+
+   /* =========================================
+   TEAM SECTION - MODERNIZED
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.team-section {
+    position: relative;
+    padding: 100px 5%;
+    /* Brightened the background slightly with a modern radial gradient */
+    background: radial-gradient(circle at top, #23194a 0%, #120c29 100%);
+    overflow: hidden;
+    font-family: 'Inter', sans-serif; 
+}
+
+#teamParticleCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.team-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px; /* Constrained to match the 2-column wide layout */
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 60px;
+    letter-spacing: 1.5px;
+}
+
+.team-grid {
+    display: grid;
+    /* Forces 2 wide cards per row on desktop, like the image */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.team-card {
+    /* Lighter, modern glass-like purple to fix the "too dark" issue */
+    background: rgba(43, 31, 92, 0.6); 
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Modern subtle border */
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    background: rgba(53, 40, 107, 0.8);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.member-image {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.team-card:hover .member-image img {
+    transform: scale(1.08);
+}
+
+.member-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.member-info h3 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.3px;
+}
+
+.member-info .role {
+    color: #a396d3; /* Brighter, more legible muted purple */
+    font-size: 0.85rem;
+    margin: 0 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; 
+    height: 32px; 
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05); /* Modern glass background */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #c4b5fd;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: #6366f1; /* Vibrant modern indigo pop on hover */
+    color: #ffffff;
+    border-color: #6366f1;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: 1fr; /* Stacks to 1 column on smaller screens */
+    }
+    
+    .team-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .member-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%; /* Circles often look better stacked on mobile */
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+
+
+
+
 
 /* =========================================
-   SERVICE DETAILS
+   FAQ SECTION - MODERNIZED
+     (New Accordion Style)
    ========================================= */
 
-   
+   /* Import fonts if not already in your global CSS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+.astha-faq-section {
+    background-color: #0d0628; /* Deep dark blue matching your AI section */
+    padding: 100px 5%;
+    font-family: 'Inter', sans-serif;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.faq-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+/* --- Left Side: Header Styles --- */
+.faq-subtitle {
+    color: #ff0f7b; /* Brand pink/magenta */
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.faq-title {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+.faq-title span {
+    color: #ff0f7b;
+}
+
+.faq-description {
+    color: #a39eb8;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
+}
+
+.faq-btn {
+    display: inline-block;
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #ff0f7b;
+    padding: 14px 30px;
+    font-weight: 600;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.faq-btn:hover {
+    background: #ff0f7b;
+    box-shadow: 0 10px 25px rgba(255, 15, 123, 0.4);
+    transform: translateY(-3px);
+}
+
+/* --- Right Side: Accordion Styles --- */
+.faq-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: rgba(255, 15, 123, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.faq-item.active {
+    border-color: #ff0f7b;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.3s ease;
+}
+
+.faq-item.active .faq-question {
+    color: #ff0f7b;
+}
+
+.faq-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.4s ease;
+    color: #a39eb8;
+}
+
+.faq-item.active .faq-icon {
+    background: #ff0f7b;
+    color: #ffffff;
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.faq-answer-inner {
+    padding: 0 25px 25px 25px;
+    color: #d1cde0;
+    font-size: 1rem;
+    line-height: 1.7;
+    border-top: 1px solid transparent;
+}
+
+/* --- Scroll Animations --- */
+[data-animate="fade-right"] {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-animate="fade-left"] {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.is-visible {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 992px) {
+    .faq-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .faq-header {
+        text-align: center;
+    }
+    
+    .faq-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .astha-faq-section {
+        padding: 60px 5%;
+    }
+
+    .faq-question {
+        font-size: 1.05rem;
+        padding: 20px;
+    }
+    
+    .faq-answer-inner {
+        padding: 0 20px 20px 20px;
+    }
+}

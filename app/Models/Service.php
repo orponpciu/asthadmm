@@ -11,23 +11,20 @@ class Service extends Model
 
     /**
      * The attributes that aren't mass-assignable.
-     * Use guarded empty to allow Filament to save all fields.
+     * Using an empty guarded array allows Filament to save all fields seamlessly,
+     * including 'seo_title' and 'seo_description'.
      */
     protected $guarded = [];
 
     /**
      * The attributes that should be cast.
-     * This ensures the JSON from Filament is handled as a PHP array.
      */
     protected $casts = [
+        // The Builder field stores all sections (hero, faqs, promises) as JSON in this one column
         'content' => 'array',
-        'seo_keywords' => 'array',
         
-        // Keep these only if you are using separate columns for them, 
-        // otherwise the 'content' cast above covers all builder blocks.
-        'feature_blocks' => 'array',
-        'faqs'           => 'array',
-        'promises'       => 'array',
+        // TagsInput saves as JSON, so it must be cast back to a PHP array
+        'seo_keywords' => 'array',
     ];
 
     /**

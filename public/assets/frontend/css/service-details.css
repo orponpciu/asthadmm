@@ -1,4 +1,4 @@
-/* === CSS Variables matching the Website Design === */
+/* === CSS Variables === */
 :root {
     --brand-red: #e3003a;
     --brand-black: #000000;
@@ -14,6 +14,7 @@ body {
     line-height: 1.7;
     overflow-x: hidden;
     background-color: var(--bg-light);
+    margin: 0;
 }
 
 .container {
@@ -22,7 +23,34 @@ body {
     padding: 0 20px;
 }
 
-/* === Floating Social Icons (Right Edge) === */
+/* === MAIN WRAPPER FIX === */
+/* Pushes the footer down naturally if there is no content */
+.service-main-wrapper {
+    min-height: 50vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* === SERVICE PAGE TITLE FIX === */
+.service-page-header {
+    background: var(--bg-offwhite);
+    /* 150px top padding ensures it clears your fixed navigation menu */
+    padding: 150px 0 60px 0; 
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+}
+.service-page-header h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive, massive title */
+    font-weight: 800;
+    color: var(--brand-black);
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: 2px;
+}
+
+/* === Floating Social Icons === */
 .floating-socials {
     position: fixed;
     right: 20px;
@@ -43,19 +71,16 @@ body {
     transform: scale(1.1);
 }
 
-/* =========================================
-   === HERO SECTION (MODERNIZED) === 
-   ========================================= */
+/* === HERO SECTION === */
 .hero {
     position: relative;
-    /* Modern Animated Gradient Background */
     background: linear-gradient(-45deg, #000000, #1a0008, #000000, #2b0010);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     padding: 100px 0;
     color: #fff;
     overflow: hidden;
-    min-height: 80vh; /* Better vertical alignment */
+    min-height: 80vh; 
     display: flex;
     align-items: center;
 }
@@ -70,90 +95,27 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: space-between; 
-    gap: 50px; /* Added gap to prevent overlap on smaller screens */
+    gap: 50px;
 }
 
-.hero-content { 
-    flex: 1;
-    max-width: 650px; 
-}
-
-.hero h1 { 
-    /* Modern clamp() for responsive font sizing without media queries */
-    font-size: clamp(2rem, 4vw + 1rem, 3.5rem); 
-    font-weight: 800; 
-    line-height: 1.1; 
-    margin-bottom: 20px; 
-    text-transform: uppercase; 
-    /* Entrance Animation */
-    animation: fadeInUp 1s ease forwards;
-    opacity: 0;
-}
-
-.hero p { 
-    /* Smaller, responsive font for the paragraph */
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem); 
-    color: #ccc; 
-    margin-bottom: 35px; 
-    max-width: 500px; 
-    animation: fadeInUp 1s ease 0.2s forwards;
-    opacity: 0;
-}
+.hero-content { flex: 1; max-width: 650px; }
+.hero h2 { font-size: clamp(2rem, 4vw + 1rem, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; animation: fadeInUp 1s ease forwards; opacity: 0; }
+.hero p { font-size: clamp(0.9rem, 1.5vw, 1.1rem); color: #ccc; margin-bottom: 35px; max-width: 500px; animation: fadeInUp 1s ease 0.2s forwards; opacity: 0; }
 
 .hero .btn-red { 
-    background: var(--brand-red); 
-    color: #fff; 
-    padding: 14px 40px; 
-    border-radius: 50px; 
-    text-decoration: none; 
-    font-weight: 600; 
-    display: inline-block; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(227, 0, 58, 0.3);
-    animation: fadeInUp 1s ease 0.4s forwards;
-    opacity: 0;
+    background: var(--brand-red); color: #fff; padding: 14px 40px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease;
+    animation: fadeInUp 1s ease 0.4s forwards; opacity: 0;
 }
+.hero .btn-red:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(227, 0, 58, 0.6); }
 
-.hero .btn-red:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(227, 0, 58, 0.6);
-}
+.hero-image { flex: 1; max-width: 500px; animation: floatImage 6s ease-in-out infinite; }
+.hero-image img { width: 100%; object-fit: contain; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
-.hero-image { 
-    flex: 1;
-    max-width: 500px; 
-    /* Modern Floating Animation for the Image */
-    animation: floatImage 6s ease-in-out infinite;
-}
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes floatImage { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+@keyframes gradientBG { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
-.hero-image img { 
-    width: 100%; 
-    object-fit: contain; 
-    border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-
-/* === CSS Animations for Hero === */
-@keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes floatImage {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* === Alternating Feature Blocks === */
+/* === FEATURE BLOCKS === */
 .page-sections { padding: 80px 0; }
 .feature-block { display: flex; align-items: center; gap: 60px; margin-bottom: 100px; }
 .feature-block.reverse { flex-direction: row-reverse; }
@@ -167,30 +129,28 @@ body {
 .text-content ul { list-style: none; margin-bottom: 25px; padding-left: 0; }
 .text-content ul li { position: relative; padding-left: 20px; margin-bottom: 10px; color: var(--text-grey); font-size: 15px; }
 .text-content ul li::before { content: "•"; color: var(--brand-red); font-weight: bold; position: absolute; left: 0; font-size: 18px; }
-
 .btn-black { background: var(--brand-black); color: #fff; padding: 10px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; font-size: 13px; text-transform: uppercase; }
 
-/* === Dark Middle Banner === */
-.mid-banner { background: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1974&auto=format&fit=crop') center/cover; padding: 100px 0; text-align: center; color: white; position: relative; }
+/* === MID BANNER === */
+.mid-banner { padding: 100px 0; text-align: center; color: white; position: relative; }
 .mid-banner::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); }
 .mid-banner .container { position: relative; z-index: 2; }
 .mid-banner h2 { color: var(--brand-red); font-size: 2.5rem; text-transform: uppercase; margin-bottom: 20px; font-weight: 800; }
 .mid-banner p { max-width: 800px; margin: 0 auto; font-size: 1.1rem; }
 
-/* === Side-by-Side FAQ Section === */
+/* === FAQ SECTION === */
 .faq-section { padding: 100px 0; background: var(--bg-offwhite); border-top: 1px solid #eee; }
 .faq-container { display: flex; gap: 50px; align-items: flex-start; }
 .faq-title { flex: 0.4; position: sticky; top: 100px; }
 .faq-title h2 { color: var(--brand-red); font-size: 2.5rem; font-weight: 800; text-transform: uppercase; line-height: 1.1; }
 .faq-list { flex: 0.6; }
-
 .accordion-item { border-bottom: 1px solid #ddd; margin-bottom: 15px; padding-bottom: 15px; }
 .accordion-header { cursor: pointer; font-weight: 700; color: var(--brand-black); font-size: 16px; display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
 .accordion-header span { color: var(--brand-red); font-size: 24px; font-weight: 400; }
 .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
 .accordion-content p { color: var(--text-grey); font-size: 14px; padding-bottom: 15px; margin: 0; }
 
-/* === Promises Section === */
+/* === PROMISES === */
 .promises { padding: 80px 0; text-align: center; margin: 0 auto; }
 .promises h2 { color: var(--brand-red); text-transform: uppercase; font-size: 2rem; margin-bottom: 40px; font-weight: 800; }
 .promises-grid { display: flex; gap: 30px; justify-content: center; }
@@ -198,42 +158,15 @@ body {
 .promise-card h4 { color: var(--brand-black); margin-bottom: 10px; font-size: 16px; font-weight: 700;}
 .promise-card p { color: var(--text-grey); font-size: 13px; line-height: 1.6; margin: 0;}
 
-/* =========================================
-   === RESPONSIVE MEDIA QUERIES === 
-   ========================================= */
+/* === MOBILE === */
 @media (max-width: 992px) {
-    /* Make Hero fully mobile friendly and stacked */
-    .hero {
-        padding: 80px 0 60px;
-    }
-    .hero .container { 
-        flex-direction: column; 
-        text-align: center;
-        gap: 40px; 
-    }
-    .hero p {
-        margin: 0 auto 30px auto; /* Centers the text block on mobile */
-    }
-    .hero-image {
-        max-width: 80%; /* Scales image nicely on mobile */
-    }
-
-    /* Fix other sections for mobile */
-    .feature-block, .feature-block.reverse, .faq-container { 
-        flex-direction: column; 
-        text-align: center;
-    }
-    .text-content ul {
-        text-align: left;
-        display: inline-block;
-    }
-    .faq-title { 
-        position: relative; 
-        top: 0; 
-        margin-bottom: 30px; 
-    }
-    .promises-grid { 
-        grid-template-columns: 1fr; 
-        flex-direction: column; 
-    }
+    .service-page-header { padding-top: 100px; }
+    .hero { padding: 80px 0 60px; }
+    .hero .container { flex-direction: column; text-align: center; gap: 40px; }
+    .hero p { margin: 0 auto 30px auto; }
+    .hero-image { max-width: 80%; }
+    .feature-block, .feature-block.reverse, .faq-container { flex-direction: column; text-align: center; }
+    .text-content ul { text-align: left; display: inline-block; }
+    .faq-title { position: relative; top: 0; margin-bottom: 30px; }
+    .promises-grid { grid-template-columns: 1fr; flex-direction: column; }
 }

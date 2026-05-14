@@ -1159,3 +1159,203 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 });
+
+
+// =========================================
+// TEAM PARTICLES LOGIC
+// =========================================
+document.addEventListener("DOMContentLoaded", function() {
+    const canvas = document.getElementById("teamParticleCanvas");
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext("2d");
+    let particlesArray = [];
+    
+    // Set canvas size
+    function initCanvasSize() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    initCanvasSize();
+    window.addEventListener("resize", initCanvasSize);
+
+    // Mouse interaction parameters
+    let mouse = {
+        x: null,
+        y: null,
+        radius: 120 
+    };
+
+    canvas.addEventListener('mousemove', function(event) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = event.x - rect.left;
+        mouse.y = event.y - rect.top;
+    });
+
+    canvas.addEventListener('mouseout', function() {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    class Particle {
+        constructor(x, y, directionX, directionY, size, color) {
+            this.x = x;
+            this.y = y;
+            this.directionX = directionX;
+            this.directionY = directionY;
+            this.size = size;
+            this.color = color;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+
+        update() {
+            if (this.x > canvas.width || this.x < 0) {
+                this.directionX = -this.directionX;
+            }
+            if (this.y > canvas.height || this.y < 0) {
+                this.directionY = -this.directionY;
+            }
+
+            this.x += this.directionX;
+            this.y += this.directionY;
+
+            // Mouse repulsion effect
+            if (mouse.x != null && mouse.y != null) {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius) {
+                    this.x -= dx * 0.03;
+                    this.y -= dy * 0.03;
+                }
+            }
+            this.draw();
+        }
+    }
+
+    function initParticles() {
+        particlesArray = [];
+        let numberOfParticles = (canvas.height * canvas.width) / 20000; 
+        
+        for (let i = 0; i < numberOfParticles; i++) {
+            let size = (Math.random() * 1.5) + 0.5; 
+            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+            let directionX = (Math.random() * 0.4) - 0.2; 
+            let directionY = (Math.random() * 0.4) - 0.2;
+            // Brightened particles slightly so they show up better
+            let color = 'rgba(255, 255, 255, 0.3)'; 
+
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+        }
+    }
+
+    function connect() {
+        let opacityValue = 1;
+        for (let a = 0; a < particlesArray.length; a++) {
+            for (let b = a; b < particlesArray.length; b++) {
+                let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                
+                if (distance < (canvas.width / 8) * (canvas.height / 8)) {
+                    opacityValue = 1 - (distance / 15000);
+                    // Brightened the connecting lines slightly
+                    ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue * 0.15 + ')'; 
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+        }
+        connect();
+    }
+
+    initParticles();
+    animate();
+});
+
+// =========================================
+// FAQ LOGIC
+// =========================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    /* ==========================================
+       1. Accordion Logic
+       ========================================== */
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const questionBtn = item.querySelector('.faq-question');
+        
+        questionBtn.addEventListener('click', () => {
+            const answer = item.querySelector('.faq-answer');
+            const isOpen = item.classList.contains('active');
+
+            // Optional: Close all other open FAQs (uncomment if you want only 1 open at a time)
+            /*
+            faqItems.forEach(otherItem => {
+                otherItem.classList.remove('active');
+                otherItem.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            */
+
+            // Toggle current item
+            if (isOpen) {
+                item.classList.remove('active');
+                answer.style.maxHeight = null;
+            } else {
+                item.classList.add('active');
+                // Calculate exactly how tall the content inside is, to animate smoothly
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        });
+    });
+
+    /* ==========================================
+       2. Scroll Reveal Animations
+       ========================================== */
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Triggers when 15% of the element is visible
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                // Optional: Stop observing once animated
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('[data-animate]');
+    animatedElements.forEach(el => observer.observe(el));
+    
+    // Recalculate heights on window resize to prevent cut-off text if screen changes
+    window.addEventListener('resize', () => {
+        const activeItems = document.querySelectorAll('.faq-item.active .faq-answer');
+        activeItems.forEach(answer => {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+        });
+    });
+});

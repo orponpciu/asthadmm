@@ -9,6 +9,7 @@ use App\Filament\Resources\SiteSettings\Schemas\SiteSettingForm;
 use App\Filament\Resources\SiteSettings\Tables\SiteSettingsTable;
 use App\Models\SiteSetting;
 use BackedEnum;
+use UnitEnum; // <-- Added this import for strict typing
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,7 +19,11 @@ class SiteSettingResource extends Resource
 {
     protected static ?string $model = SiteSetting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    // ✅ FIXED: Changed to a gear/cog icon for settings
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog8Tooth;
+
+    // ✅ FIXED: Grouping this resource under "Settings"
+    protected static string|UnitEnum|null $navigationGroup = 'Settings';
 
     protected static ?string $recordTitleAttribute = 'Name';
 

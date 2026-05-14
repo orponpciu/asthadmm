@@ -18,7 +18,8 @@ class BrandSettingResource extends Resource
 {
     protected static ?string $model = BrandSetting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    // The icon has been updated here
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
 
     protected static ?string $recordTitleAttribute = 'Name';
 

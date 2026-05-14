@@ -19,14 +19,15 @@ class ServiceSectionResource extends Resource
 {
     protected static ?string $model = ServiceSection::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    // ✅ FIXED: Changed to Briefcase icon to represent "Services"
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
     // Filament v4 requires UnitEnum in the union type for the navigation group
     protected static string|UnitEnum|null $navigationGroup = 'Service Setting';
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $recordTitleAttribute = 'title'; // Usually lowercase in Filament, adjust if your column is actually 'Name'
+    protected static ?string $recordTitleAttribute = 'title'; 
 
     public static function form(Schema $schema): Schema
     {

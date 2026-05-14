@@ -7,16 +7,26 @@
             <div class="ai-content-wrapper">
                 
                 <div class="ai-text-content">
-                    <h2 class="ai-title">EXPLORE NEW HEIGHTS – <span>STEP INTO THE AI DIGITAL WORLD</span></h2>
-                    <h3 class="ai-subtitle">Enhance AI visibility, accelerate growth, and maximize ROI</h3>
-                    
-                    <p>At <strong>ASTHA Digital Marketing Management</strong>, we are embracing the future of digital marketing by integrating <strong>Artificial Intelligence (AI)</strong> into our services. As businesses in Dubai continue to evolve in a fast-paced digital environment, AI helps us deliver smarter, faster, and more data-driven marketing solutions.</p>
-                    
-                    <p>Our AI-powered approach enhances the way brands connect with their audiences. From intelligent marketing automation and AI-driven SEO insights to smart chatbots and advanced data analytics, we use AI technologies to improve efficiency, personalize user experiences, and maximize campaign performance.</p>
-                    
-                    <p>By combining our digital marketing expertise with AI innovation, ASTHA helps businesses stay competitive, optimize marketing strategies, and achieve sustainable online growth in Dubai and across the UAE.</p>
-                    
-                    <button class="ai-btn">GET IN TOUCH ➔</button>
+                    @if($aiSection)
+                        <h2 class="ai-title">{{ $aiSection->title_white }} <span>{{ $aiSection->title_pink }}</span></h2>
+                        
+                        @if($aiSection->subtitle)
+                            <h3 class="ai-subtitle">{{ $aiSection->subtitle }}</h3>
+                        @endif
+                        
+                        @if($aiSection->paragraph_1) {!! $aiSection->paragraph_1 !!} @endif
+                        @if($aiSection->paragraph_2) {!! $aiSection->paragraph_2 !!} @endif
+                        @if($aiSection->paragraph_3) {!! $aiSection->paragraph_3 !!} @endif
+                        
+                        @if($aiSection->button_text)
+                            <button class="ai-btn" onclick="window.location.href='{{ $aiSection->button_link ?? '#' }}'">
+                                {{ $aiSection->button_text }} ➔
+                            </button>
+                        @endif
+                    @else
+                        <h2 class="ai-title">EXPLORE NEW HEIGHTS – <span>STEP INTO THE AI DIGITAL WORLD</span></h2>
+                        <p>Please configure this section in the admin panel.</p>
+                    @endif
                 </div>
 
                 <div class="ai-graphic-wrapper">
@@ -57,26 +67,31 @@
 
             </div>
 
+            @if(isset($recognitionSection) && $recognitionSection->is_active)
             <div class="ai-platforms">
-                <h4 class="platforms-title">RECOGNIZED BY LEADING INDUSTRY PLATFORMS</h4>
+                <h4 class="platforms-title">{{ $recognitionSection->section_title }}</h4>
                 <div class="platforms-logos">
-                    <div class="plat-card clutch">
-                        <span style="border: 2px solid white; padding: 5px 15px; border-radius: 4px;">Clutch</span>
-                    </div>
-                    <div class="plat-card trustpilot">
-                        ★ <span>Trustpilot</span>
-                    </div>
-                    <div class="plat-card agency">
-                        <span style="color: #00d2ff;">Agency</span>Spotter
-                    </div>
-                    <div class="plat-card designrush">
-                        DesignRush
-                    </div>
-                    <div class="plat-card sortlist">
-                        sortlist
-                    </div>
+                    
+                    @if(!empty($recognitionSection->platforms))
+                        @foreach($recognitionSection->platforms as $platform)
+                            <a href="{{ $platform['link'] ?? '#' }}" 
+                               target="_blank" 
+                               class="plat-card" 
+                               style="background-color: {{ !empty($platform['bg_color']) ? $platform['bg_color'] : 'transparent' }}; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                                
+                                @if(!empty($platform['logo']))
+                                    <img src="{{ asset('storage/' . $platform['logo']) }}" alt="{{ $platform['name'] }}" style="max-height: 40px; max-width: 100%; object-fit: contain;">
+                                @else
+                                    <span style="color: white;">{{ $platform['name'] }}</span>
+                                @endif
+                                
+                            </a>
+                        @endforeach
+                    @endif
+                    
                 </div>
             </div>
+            @endif
 
         </div>
     </section>

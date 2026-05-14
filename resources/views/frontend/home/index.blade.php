@@ -16,6 +16,7 @@
     @include('frontend.home.digitalworld')
     @include('frontend.home.partner')
     @include('frontend.home.faq')
+     @include('frontend.home.team')
     @include('frontend.home.testimonials')
     @include('frontend.home.insights')
     @include('frontend.home.contact')

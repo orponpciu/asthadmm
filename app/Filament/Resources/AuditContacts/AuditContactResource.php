@@ -10,7 +10,6 @@ use App\Filament\Resources\AuditContacts\Schemas\AuditContactForm;
 use App\Filament\Resources\AuditContacts\Schemas\AuditContactInfolist;
 use App\Filament\Resources\AuditContacts\Tables\AuditContactsTable;
 use App\Models\AuditContact;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -20,9 +19,18 @@ class AuditContactResource extends Resource
 {
     protected static ?string $model = AuditContact::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
     protected static ?string $recordTitleAttribute = 'Name';
+
+    // ✅ FIXED: Using methods instead of properties prevents all strict-typing Fatal Errors
+    public static function getNavigationIcon(): string | \BackedEnum | null
+    {
+        return Heroicon::OutlinedUsers;
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Audit Options';
+    }
 
     public static function form(Schema $schema): Schema
     {

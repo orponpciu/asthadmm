@@ -19,7 +19,8 @@ class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    // ✅ FIXED: Changed to a Briefcase icon to represent Services
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
     // Fixed: Changed type hint to match parent class requirements
     protected static string|UnitEnum|null $navigationGroup = 'Service Setting';

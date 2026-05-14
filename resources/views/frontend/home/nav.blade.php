@@ -11,11 +11,13 @@
 
 <nav>
     <div class="logo-container">
-        @if($settings->logo)
-            <img src="{{ Storage::url($settings->logo) }}" alt="Website Logo" class="logo-img">
-        @else
-            <img src="{{ asset('img/logo.png') }}" alt="ASTHA Logo" class="logo-img">
-        @endif
+        <a href="/">
+            @if($settings->logo)
+                <img src="{{ Storage::url($settings->logo) }}" alt="Website Logo" class="logo-img">
+            @else
+                <img src="{{ asset('img/logo.png') }}" alt="ASTHA Logo" class="logo-img">
+            @endif
+        </a>
     </div>
     
     <div class="menu-toggle" id="mobile-menu">

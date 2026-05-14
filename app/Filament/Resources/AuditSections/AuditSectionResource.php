@@ -9,6 +9,7 @@ use App\Filament\Resources\AuditSections\Schemas\AuditSectionForm;
 use App\Filament\Resources\AuditSections\Tables\AuditSectionsTable;
 use App\Models\AuditSection;
 use BackedEnum;
+use UnitEnum; // <-- Added this import for strict typing
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,7 +19,11 @@ class AuditSectionResource extends Resource
 {
     protected static ?string $model = AuditSection::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    // ✅ FIXED: Changed to an appropriate "audit" icon (Clipboard with a checkmark)
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
+
+    // ✅ FIXED: Grouping this resource under "Audit Options"
+    protected static string|UnitEnum|null $navigationGroup = 'Audit Options';
 
     protected static ?string $recordTitleAttribute = 'Name';
 

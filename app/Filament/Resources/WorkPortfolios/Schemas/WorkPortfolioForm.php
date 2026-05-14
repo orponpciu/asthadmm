@@ -17,7 +17,7 @@ class WorkPortfolioForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->columns(3) // Optional: Sets a 3-column grid for the whole page
+            ->columns(3) // Sets a 3-column grid for the whole page
             ->components([
                 
                 Section::make('Core Details')
@@ -101,6 +101,29 @@ class WorkPortfolioForm
                             ->reorderable(),
                     ])
                     ->columnSpan(3),
+
+                // --- NEW SEO SECTION ADDED HERE ---
+                Section::make('Search Engine Optimization (SEO)')
+                    ->description('Manage how this portfolio appears on Google and other search engines.')
+                    ->schema([
+                        TextInput::make('seo_title')
+                            ->label('SEO Title')
+                            ->helperText('Leave blank to fall back to the main Portfolio Title.')
+                            ->maxLength(60), // Standard best practice length
+                        
+                        Textarea::make('seo_meta_description')
+                            ->label('Meta Description')
+                            ->helperText('A brief summary of the page. Ideal length is 150-160 characters.')
+                            ->rows(3)
+                            ->maxLength(160),
+                            
+                        TagsInput::make('focus_keywords')
+                            ->label('Focus Keywords')
+                            ->helperText('Press Enter after typing each keyword.')
+                            ->placeholder('e.g., digital marketing, seo case study'),
+                    ])
+                    ->columnSpan(3)
+                    ->collapsed(), // Keeps the form clean by collapsing this section by default
 
             ]);
     }
