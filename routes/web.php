@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Models\WorkPortfolio;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PostController;
+use Spatie\Sitemap\SitemapGenerator;
 
 
 // Home Page - Consolidated to use the Controller
@@ -41,3 +42,10 @@ Route::get('/work/{slug}', function ($slug) {
 Route::post('/contact-submit', [BookingController::class, 'store'])->name('contact.store');
 
 Route::get('/insights/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+
+Route::get('/sitemap.xml', function () {
+    return SitemapGenerator::create('https://asthadmm.oslaravel.com')
+        ->getSitemap()
+        ->toResponse(request());
+});
