@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +14,7 @@ class Post extends Model
         'title',
         'slug',
         'featured_image',
+        'featured_image_alt', // Added the new alt text field here
         'content',
         'published_at',
         'is_published',

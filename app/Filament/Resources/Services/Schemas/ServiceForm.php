@@ -85,6 +85,13 @@ class ServiceForm
                                 FileUpload::make('image')
                                     ->image()
                                     ->directory('services/hero'),
+                                
+                                // --- ADDED ALT TEXT ---
+                                TextInput::make('image_alt')
+                                    ->label('Image Alt Text')
+                                    ->helperText('Describe the image for screen readers and SEO.')
+                                    ->maxLength(255),
+
                                 ColorPicker::make('particle_color')
                                     ->default('#e3003a'),
                             ])->columns(2),
@@ -102,6 +109,13 @@ class ServiceForm
                                     ])
                                     ->createItemButtonLabel('Add Bullet Point'),
                                 FileUpload::make('image')->image()->directory('services/features'),
+                                
+                                // --- ADDED ALT TEXT ---
+                                TextInput::make('image_alt')
+                                    ->label('Image Alt Text')
+                                    ->helperText('Describe the image for screen readers and SEO.')
+                                    ->maxLength(255),
+
                                 Toggle::make('is_reversed')
                                     ->label('Reverse Layout')
                                     ->default(false),
@@ -116,6 +130,13 @@ class ServiceForm
                                 TextInput::make('title'),
                                 Textarea::make('description'),
                                 FileUpload::make('bg_image')->image(),
+                                
+                                // --- ADDED ALT TEXT ---
+                                TextInput::make('bg_image_alt')
+                                    ->label('Background Image Alt Text')
+                                    ->helperText('Describe the image for screen readers and SEO.')
+                                    ->maxLength(255),
+
                                 TextInput::make('btn_text'),
                                 TextInput::make('btn_link'),
                             ]),

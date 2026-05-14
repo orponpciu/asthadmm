@@ -50,6 +50,12 @@ class WorkPortfolioForm
                             ->directory('portfolio')
                             ->label('Cover Image'),
 
+                        // --- NEW ALT TEXT FIELD ADDED HERE ---
+                        TextInput::make('hero_image_alt')
+                            ->label('Image Alt Text')
+                            ->helperText('Describe the image for screen readers and SEO.')
+                            ->maxLength(255),
+
                         TextInput::make('cta_link')
                             ->label('Call to Action Link')
                             ->url()
@@ -102,7 +108,7 @@ class WorkPortfolioForm
                     ])
                     ->columnSpan(3),
 
-                // --- NEW SEO SECTION ADDED HERE ---
+                // --- SEO SECTION ---
                 Section::make('Search Engine Optimization (SEO)')
                     ->description('Manage how this portfolio appears on Google and other search engines.')
                     ->schema([

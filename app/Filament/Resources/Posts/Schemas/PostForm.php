@@ -128,6 +128,12 @@ class PostForm
                                 ->directory('featured-images')
                                 ->imageEditor()
                                 ->required(),
+
+                            // --- NEW ALT TEXT FIELD ADDED HERE ---
+                            TextInput::make('featured_image_alt')
+                                ->label('Image Alt Text')
+                                ->helperText('Describe the image for screen readers and SEO.')
+                                ->maxLength(255),
                         ]),
                 ])->columnSpan(['lg' => 1]), // Spans 1 column on desktop
                 
